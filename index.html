@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#58cc02">
+<meta name="description" content="Belajar bahasa Jepang dari nol bersama Nihongo Journey.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>Nihongo Journey</title>
+<style>
+:root{--green:#58cc02;--dark:#46a302;--ink:#263238;--muted:#718096;--line:#e5eaf0;--bg:#f7f9fc;--card:#fff;--blue:#1cb0f6;--yellow:#ffc800;--red:#ff4b4b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+button{font:inherit;cursor:pointer}.app{max-width:760px;margin:auto;min-height:100vh;padding-bottom:86px}
+header{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line);padding:13px 18px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:18px}.logo{width:38px;height:38px;border-radius:12px;background:var(--green);color:white;display:grid;place-items:center;font-size:23px}
+.streak{font-weight:800;color:#e5a800;background:#fff8d8;padding:7px 11px;border-radius:20px}
+main{padding:18px}.welcome{background:linear-gradient(135deg,#58cc02,#8be34b);color:white;padding:22px;border-radius:22px;box-shadow:0 5px 0 #46a302;margin-bottom:18px}
+.welcome h1{font-size:25px;line-height:1.2;margin:0 0 7px}.welcome p{margin:0;color:#f3ffe9}
+.section-title{font-size:19px;font-weight:900;margin:22px 0 12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.muted{color:var(--muted);font-size:13px}
+.progress{height:10px;border-radius:20px;background:#e9eef3;overflow:hidden;margin-top:10px}.progress span{display:block;height:100%;background:var(--green);width:0;transition:width .3s}
+.lesson{display:flex;gap:13px;align-items:center}.lesson-icon{width:54px;height:54px;border-radius:16px;background:#e9f9dc;display:grid;place-items:center;color:#348000;font-size:25px;font-weight:900;flex-shrink:0}
+.primary{background:var(--green);color:white;border:0;border-radius:14px;padding:13px 18px;font-weight:900;box-shadow:0 4px 0 var(--dark);width:100%;margin-top:12px}.primary:active{transform:translateY(3px);box-shadow:0 1px 0 var(--dark)}
+.secondary{background:#eef3f7;color:var(--ink);border:0;border-radius:12px;padding:10px 14px;font-weight:800}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:center;z-index:10;padding:8px max(8px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom))}
+.nav-inner{display:flex;width:min(760px,100%);justify-content:space-around}.nav button{border:0;background:none;color:#87939e;font-weight:800;font-size:11px;padding:5px 12px}.nav button span{display:block;font-size:22px}.nav button.active{color:var(--dark)}
+.screen{display:none}.screen.active{display:block}
+.kana-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px}.kana{background:#f2f9ed;border:1px solid #dcefd0;border-radius:13px;padding:10px 3px;text-align:center}.kana b{font-size:25px;display:block}.kana small{color:var(--muted)}
+.quiz-option{width:100%;text-align:left;padding:14px;border:2px solid var(--line);border-radius:14px;background:white;font-weight:800;margin:6px 0}.quiz-option.selected{border-color:var(--blue);background:#eef9ff}.quiz-option.correct{border-color:var(--green);background:#f1ffe7}.quiz-option.wrong{border-color:var(--red);background:#fff1f1}
+.feedback{padding:13px;border-radius:13px;background:#f1ffe7;margin-top:12px;font-weight:700}.feedback.bad{background:#fff1f1}
+.big-kana{text-align:center;font-size:82px;font-weight:800;line-height:1.2;margin:15px}
+.word{font-size:26px;font-weight:900}.tag{display:inline-block;border-radius:30px;background:#eaf7ff;color:#087bb0;padding:4px 10px;font-size:12px;font-weight:800}
+footer{text-align:center;color:#98a2ad;font-size:12px;padding:20px}
+@media(min-width:600px){main{padding:24px}.welcome{padding:28px}.welcome h1{font-size:30px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="brand"><div class="logo">あ</div> Nihongo Journey</div><div class="streak">🔥 <b id="streak">0</b> hari</div></header>
+<main>
+<section id="home" class="screen active">
+ <div class="welcome"><div class="tag" style="background:#ffffff33;color:white">LEVEL PEMULA · N5</div><h1>こんにちは！<br>Mari belajar bahasa Jepang.</h1><p>Sedikit demi sedikit, setiap hari. Ganbatte! 💪</p></div>
+ <div class="card"><div class="row"><b>Perjalanan belajarmu</b><b id="percent">0%</b></div><div class="progress"><span id="overall"></span></div><p class="muted" id="progressText">Selesaikan pelajaran pertamamu untuk memulai.</p></div>
+ <div class="section-title">Pelajaran hari ini</div>
+ <div class="card"><div class="lesson"><div class="lesson-icon">あ</div><div style="flex:1"><b id="todayTitle">Hari 1 · Lima vokal Jepang</b><div class="muted" id="todayDesc">Kenali あ い う え お</div></div><span class="tag">5 menit</span></div><button class="primary" onclick="startLesson()">MULAI BELAJAR</button></div>
+ <div class="section-title">Peta perjalanan</div><div id="path"></div>
+</section>
+<section id="learn" class="screen">
+ <div class="section-title">📚 Materi belajar</div><p class="muted">Ikuti urutan dari atas. Setiap materi dirancang singkat agar mudah diingat.</p><div id="lessonList"></div>
+</section>
+<section id="practice" class="screen">
+ <div class="section-title">🎯 Latihan singkat</div><div class="card"><div class="muted">LATIHAN HARIAN</div><h2>Seberapa kenal kamu dengan huruf Jepang?</h2><p>Jawab pertanyaan sederhana untuk menguatkan ingatan.</p><button class="primary" onclick="startQuiz()">MULAI LATIHAN</button></div><div id="quizArea"></div>
+</section>
+<section id="dictionary" class="screen">
+ <div class="section-title">📖 Kamus mini Jepang–Indonesia</div><input id="search" placeholder="Cari kata, misalnya neko..." style="width:100%;padding:13px;border:1px solid var(--line);border-radius:12px;font:inherit" oninput="renderDictionary()"><div id="dictList" style="margin-top:12px"></div>
+</section>
+<section id="progress" class="screen">
+ <div class="section-title">🏆 Progres belajar</div><div class="card"><div class="row"><b>Pelajaran selesai</b><b id="doneCount">0 / 7</b></div><div class="progress"><span id="progressBar"></span></div><p class="muted">Konsisten lebih penting daripada terburu-buru.</p></div><div class="card"><b>Targetmu</b><p class="muted">Belajar satu materi setiap hari. Ulangi materi sebelumnya sebelum melanjutkan.</p><b>Level saat ini: Pemula (N5)</b></div><button class="secondary" onclick="resetProgress()">Atur ulang progres</button>
+</section>
+<footer>日本語を学ぼう · Belajar sedikit demi sedikit setiap hari.</footer>
+</main>
+<nav class="nav"><div class="nav-inner">
+<button class="active" data-tab="home" onclick="showTab('home',this)"><span>🏠</span>Beranda</button>
+<button data-tab="learn" onclick="showTab('learn',this)"><span>📚</span>Belajar</button>
+<button data-tab="practice" onclick="showTab('practice',this)"><span>🎯</span>Latihan</button>
+<button data-tab="dictionary" onclick="showTab('dictionary',this)"><span>📖</span>Kamus</button>
+<button data-tab="progress" onclick="showTab('progress',this)"><span>🏆</span>Progres</button>
+</div></nav>
+</div>
+<script>
+const lessons=[
+ {title:"Lima vokal Jepang",desc:"あ い う え お",intro:"Bahasa Jepang memiliki lima bunyi vokal dasar. Hafalkan bunyi dan bentuknya terlebih dahulu.",kana:[["あ","a"],["い","i"],["う","u"],["え","e"],["お","o"]],tip:"Ucapkan berurutan: a – i – u – e – o. Bunyi vokal Jepang relatif konsisten."},
+ {title:"Baris K",desc:"か き く け こ",intro:"Sekarang tambahkan bunyi K di depan lima vokal.",kana:[["か","ka"],["き","ki"],["く","ku"],["け","ke"],["こ","ko"]],tip:"Baca perlahan: ka – ki – ku – ke – ko."},
+ {title:"Baris S",desc:"さ し す せ そ",intro:"Pelajari baris S. Perhatikan bahwa し dibaca shi, bukan si.",kana:[["さ","sa"],["し","shi"],["す","su"],["せ","se"],["そ","so"]],tip:"Ingat khusus: し = shi."},
+ {title:"Baris T",desc:"た ち つ て と",intro:"Baris T memiliki dua bunyi khusus: ち dibaca chi dan つ dibaca tsu.",kana:[["た","ta"],["ち","chi"],["つ","tsu"],["て","te"],["と","to"]],tip:"Ingat khusus: ち = chi dan つ = tsu."},
+ {title:"Baris N",desc:"な に ぬ ね の",intro:"Baris N cukup teratur. Coba baca setiap huruf dengan suara jelas.",kana:[["な","na"],["に","ni"],["ぬ","nu"],["ね","ne"],["の","no"]],tip:"Baca: na – ni – nu – ne – no."},
+ {title:"Baris H",desc:"は ひ ふ へ ほ",intro:"Baris H memiliki bunyi khusus: ふ dibaca fu dengan hembusan lembut.",kana:[["は","ha"],["ひ","hi"],["ふ","fu"],["へ","he"],["ほ","ho"]],tip:"Ingat: ふ = fu."},
+ {title:"Baris M",desc:"ま み む め も",intro:"Kamu sudah semakin jauh! Pelajari lima huruf baris M.",kana:[["ま","ma"],["み","mi"],["む","mu"],["め","me"],["も","mo"]],tip:"Baca: ma – mi – mu – me – mo."}
+];
+const dictionary=[["こんにちは","konnichiwa","Halo / selamat siang"],["ありがとう","arigatou","Terima kasih"],["はい","hai","Ya"],["いいえ","iie","Tidak"],["ねこ","neko","Kucing"],["いぬ","inu","Anjing"],["みず","mizu","Air"],["ほん","hon","Buku"],["がくせい","gakusei","Pelajar"],["せんせい","sensei","Guru"]];
+let state=JSON.parse(localStorage.getItem("nj_state")||'{"done":[],"streak":0,"last":""}');
+let quizIndex=0,quizScore=0,quizSelected=-1,quizAnswered=false;
+function save(){localStorage.setItem("nj_state",JSON.stringify(state));updateUI()}
+function showTab(id,btn){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));if(btn)btn.classList.add("active");if(id==="dictionary")renderDictionary()}
+function updateUI(){
+ const n=state.done.length,p=Math.round(n/lessons.length*100);document.getElementById("percent").textContent=p+"%";document.getElementById("overall").style.width=p+"%";document.getElementById("progressBar").style.width=p+"%";document.getElementById("doneCount").textContent=n+" / "+lessons.length;document.getElementById("progressText").textContent=n?`${n} dari ${lessons.length} materi awal sudah selesai. Lanjutkan perjalananmu!`:"Selesaikan pelajaran pertamamu untuk memulai.";document.getElementById("streak").textContent=state.streak;
+ const next=lessons.findIndex((_,i)=>!state.done.includes(i));const idx=next<0?lessons.length-1:next;document.getElementById("todayTitle").textContent=next<0?"Semua materi awal selesai!":"Hari "+(idx+1)+" · "+lessons[idx].title;document.getElementById("todayDesc").textContent=lessons[idx].desc;
+ document.getElementById("path").innerHTML=lessons.map((l,i)=>`<div class="card lesson"><div class="lesson-icon">${state.done.includes(i)?"✓":i+1}</div><div style="flex:1"><b>${l.title}</b><div class="muted">${l.desc}</div></div><span>${state.done.includes(i)?"✅":i===idx?"▶️":"🔒"}</span></div>`).join("");
+ document.getElementById("lessonList").innerHTML=lessons.map((l,i)=>`<div class="card lesson"><div class="lesson-icon">${state.done.includes(i)?"✓":i+1}</div><div style="flex:1"><b>${l.title}</b><div class="muted">${l.desc}</div></div><button class="secondary" onclick="openLesson(${i})">${state.done.includes(i)?"Ulangi":"Buka"}</button></div>`).join("");
+}
+function startLesson(){let i=lessons.findIndex((_,i)=>!state.done.includes(i));openLesson(i<0?0:i)}
+function openLesson(i){let l=lessons[i];showTab("learn",document.querySelector('[data-tab="learn"]'));let area=document.getElementById("lessonList");area.innerHTML=`<div class="card"><div class="muted">MATERI ${i+1} DARI ${lessons.length}</div><h2>${l.title}</h2><p>${l.intro}</p><div class="kana-grid">${l.kana.map(k=>`<div class="kana"><b>${k[0]}</b><small>${k[1]}</small></div>`).join("")}</div><div class="feedback" style="margin-top:16px">💡 ${l.tip}</div><p class="muted">Tips: baca setiap huruf dengan suara keras sebanyak tiga kali.</p><button class="primary" onclick="completeLesson(${i})">SELESAI BELAJAR</button><button class="secondary" style="width:100%;margin-top:12px" onclick="updateUI()">Kembali ke daftar materi</button></div>`}
+function completeLesson(i){if(!state.done.includes(i)){state.done.push(i);let today=new Date().toDateString();if(state.last!==today){state.streak+=1;state.last=today}}save();openLesson(i);document.querySelector("#lessonList .card").insertAdjacentHTML("afterbegin",'<div class="feedback">🎉 Bagus! Materi berhasil ditandai selesai.</div>')}
+const questions=[{q:"Huruf あ dibaca...",o:["a","i","u","e"],a:0},{q:"Huruf い dibaca...",o:["o","u","i","a"],a:2},{q:"Huruf う dibaca...",o:["e","u","a","o"],a:1},{q:"Huruf え dibaca...",o:["i","a","e","u"],a:2},{q:"Huruf お dibaca...",o:["o","e","a","i"],a:0}];
+function startQuiz(){quizIndex=0;quizScore=0;quizSelected=-1;quizAnswered=false;renderQuiz()}
+function renderQuiz(){let el=document.getElementById("quizArea");if(quizIndex>=questions.length){el.innerHTML=`<div class="card"><div class="big-kana">🎉</div><h2>Latihan selesai!</h2><p>Skor kamu: <b>${quizScore} dari ${questions.length}</b></p><p class="muted">${quizScore===5?"Sempurna!": "Terus berlatih, kamu pasti semakin lancar."}</p><button class="primary" onclick="startQuiz()">ULANGI LATIHAN</button></div>`;return}
+let q=questions[quizIndex];el.innerHTML=`<div class="card"><div class="row"><span class="tag">SOAL ${quizIndex+1}/${questions.length}</span><b>⭐ ${quizScore}</b></div><div class="big-kana">${q.q.split(" ")[1]}</div><h3>${q.q}</h3>${q.o.map((x,i)=>`<button class="quiz-option ${quizAnswered&&i===q.a?"correct":quizAnswered&&i===quizSelected?"wrong":quizSelected===i?"selected":""}" ${quizAnswered?"disabled":""} onclick="quizSelected=${i};renderQuiz()">${String.fromCharCode(65+i)}. ${x}</button>`).join("")}${quizAnswered?`<div class="feedback ${quizSelected===q.a?"":"bad"}">${quizSelected===q.a?"Benar! Mantap!":"Belum tepat. Jawaban yang benar: "+q.o[q.a]}</div><button class="primary" onclick="quizIndex++;quizSelected=-1;quizAnswered=false;renderQuiz()">${quizIndex===questions.length-1?"LIHAT HASIL":"LANJUT"}</button>`:`<button class="primary" ${quizSelected<0?"disabled":""} onclick="if(quizSelected<0)return;if(quizSelected===q.a)quizScore++;quizAnswered=true;renderQuiz()">PERIKSA JAWABAN</button>`}</div>`}
+function renderDictionary(){let q=(document.getElementById("search").value||"").toLowerCase();document.getElementById("dictList").innerHTML=dictionary.filter(x=>x.join(" ").toLowerCase().includes(q)).map(x=>`<div class="card row"><div><div class="word">${x[0]}</div><b>${x[1]}</b><div class="muted">${x[2]}</div></div><button class="secondary" onclick="speak('${x[0]}')">🔊</button></div>`).join("")||'<p class="muted">Kata tidak ditemukan.</p>'}
+function speak(t){if("speechSynthesis"in window){let u=new SpeechSynthesisUtterance(t);u.lang="ja-JP";speechSynthesis.speak(u)}else alert("Fitur suara belum didukung browser ini.")}
+function resetProgress(){if(confirm("Yakin ingin mengatur ulang semua progres?")){state={done:[],streak:0,last:""};save()}}
+updateUI();renderDictionary();
+if("serviceWorker"in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("./sw.js").catch(()=>{});
+</script>
+</body></html>
